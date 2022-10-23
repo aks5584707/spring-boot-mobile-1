@@ -23,14 +23,13 @@ public class MobileDaoJdbcDataSourceDependencyInjectionImpl implements MobileDao
 	private static final Logger logger = LoggerFactory.getLogger(MobileDaoJdbcDataSourceDependencyInjectionImpl.class);
 	static {
 		try {
-			logger.info("Loading driver");
 			Class.forName("org.postgresql.Driver");
+			logger.debug("Loading driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
 
 	DataSource dataSource = null;
 
@@ -71,8 +70,7 @@ public class MobileDaoJdbcDataSourceDependencyInjectionImpl implements MobileDao
 			}
 			logger.info("Fetched mobile objects");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} finally {
 			try {
 				if (ps != null) {
@@ -82,8 +80,7 @@ public class MobileDaoJdbcDataSourceDependencyInjectionImpl implements MobileDao
 					rs.close();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage());
 			}
 		}
 

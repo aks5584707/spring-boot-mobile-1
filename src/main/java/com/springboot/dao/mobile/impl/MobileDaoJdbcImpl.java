@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.springboot.dao.mobile.MobileDao;
 import com.springboot.modal.mobile.Mobile;
 
-@Repository
+@Repository("mobileDaoJdbcImpl")
 public class MobileDaoJdbcImpl implements MobileDao {
 	
 	private Connection conn;
@@ -22,8 +22,9 @@ public class MobileDaoJdbcImpl implements MobileDao {
 		System.out.println("Getting Connecting from database");
 		if (conn == null) {
 			try {
-				Class.forName("org.postgresql.Driver");
 				System.out.println("Loading driver..");
+				Class.forName("org.postgresql.Driver");
+				System.out.println("Driver loaded..");
 				conn = DriverManager.getConnection("jdbc:postgresql://localhost/postgres?user=postgres&password=postgresp");
 				System.out.println("Connected to database");
 			} catch (SQLException e) {
@@ -63,8 +64,12 @@ public class MobileDaoJdbcImpl implements MobileDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				ps.close();
-				rs.close();
+				if (ps != null) {
+					ps.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
